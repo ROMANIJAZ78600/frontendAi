@@ -24,23 +24,26 @@ function App() {
     setLoading(true);
 
     try {
-      const response = await fetch("http://localhost:5000/api/ask", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
+      const response = await fetch(
+        "https://backendai-swart.vercel.app/api/ask",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            message: userMessage,
+            history: messages.map((msg) => ({
+              role: msg.role,
+              parts: [
+                {
+                  text: msg.content,
+                },
+              ],
+            })),
+          }),
         },
-        body: JSON.stringify({
-          message: userMessage,
-          history: messages.map((msg) => ({
-            role: msg.role,
-            parts: [
-              {
-                text: msg.content,
-              },
-            ],
-          })),
-        }),
-      });
+      );
 
       const data = await response.json();
 
